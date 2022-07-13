@@ -4,7 +4,6 @@ import { nanoid } from 'nanoid';
 
 import Sidebar from './components/sidebar/Sidebar';
 import Editor from './components/editor/Editor';
-import { data } from './data';
 import './styles.css';
 
 function App() {
@@ -52,6 +51,11 @@ function App() {
     );
   }
 
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
+  }
+
   return (
     <main>
       {notes.length > 0 ? (
@@ -61,6 +65,7 @@ function App() {
             currentNote={findCurrentNote()}
             setCurrentNoteId={setCurrentNoteId}
             newNote={createNewNote}
+            handleDelete={deleteNote}
           />
           {currentNoteId && notes.length > 0 && (
             <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
